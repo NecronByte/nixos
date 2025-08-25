@@ -1,50 +1,50 @@
 # NixOS + Hyprland + Catppuccin Mocha for ThinkPad T480
 
-En komplett **flake**-konfig för en Lenovo **ThinkPad T480** med **Hyprland** och **Catppuccin Mocha**-tema. Optimerad för laptop-användning och programmering.
+A complete **flake** configuration for a Lenovo **ThinkPad T480** with **Hyprland** and **Catppuccin Mocha** theme. Optimized for laptop usage and programming.
 
-## Innehåll
-- **Display manager**: SDDM (Wayland), ingen autologin
-- **Compositor**: Hyprland (Wayland, XWayland aktiverat)
+## Contents
+- **Display manager**: SDDM (Wayland), no autologin
+- **Compositor**: Hyprland (Wayland, XWayland enabled)
 - **Panel**: Waybar (Catppuccin)
 - **Launcher**: Rofi (Catppuccin)
 - **Terminal**: Kitty (Nerd Font, Catppuccin)
 - **Editor**: Neovim + Lazy.nvim (Catppuccin), VS Code, JetBrains Rider
 - **Lock**: hyprlock (Catppuccin)
-- **Wallpaper**: Mocha-inspirerat (genererat), sätts via hyprpaper
-- **Laptop-optimering**: TLP, PowerTop, libinput touchpad, samt **kanshi** för auto-profiler av skärmar
-- **Lid/vilka lägen**: 
-  - På batteri: locket stänger -> **suspend** (spara batteri).
-  - Dockad/extern ström: locket stänger -> **ingen suspend** (fortsätt arbeta på extern skärm).
-  - **kanshi** stänger av den interna panelen när extern skärm är ansluten, och aktiverar den igen när du kopplar loss — vilket effektivt uppfyller “locket ned = laptopskärm av när extern skärm används; upp = laptopskärm på igen”.
+- **Wallpaper**: Mocha-inspired (generated), set via hyprpaper
+- **Laptop optimization**: TLP, PowerTop, libinput touchpad, plus **kanshi** for automatic screen profiles
+- **Lid/power modes**: 
+  - On battery: lid close -> **suspend** (save battery).
+  - Docked/external power: lid close -> **no suspend** (continue working on external screen).
+  - **kanshi** turns off the internal panel when external screen is connected, and activates it again when you disconnect — effectively fulfilling "lid down = laptop screen off when external screen is used; up = laptop screen on again".
 
-> Tips: Kör `hyprctl monitors` för att se output-namn (t.ex. `eDP-1`, `DP-1`, `HDMI-A-1`) och justera `home.nix` kanshi-profilerna om dina namn skiljer sig.
+> Tip: Run `hyprctl monitors` to see output names (e.g. `eDP-1`, `DP-1`, `HDMI-A-1`) and adjust the `home.nix` kanshi profiles if your names differ.
 
-## Installera
-1. **Kopiera** denna katalog till din maskin (t.ex. `/etc/nixos` eller en git-repo i `$HOME`).  
-2. **Uppdatera** `nixos/hardware-configuration.nix` från din maskin:
+## Install
+1. **Copy** this directory to your machine (e.g. `/etc/nixos` or a git repo in `$HOME`).  
+2. **Update** `nixos/hardware-configuration.nix` from your machine:
    ```bash
    sudo nixos-generate-config --show-hardware-config > nixos/hardware-configuration.nix
    ```
-3. **Bygg & aktivera**:
+3. **Build & activate**:
    ```bash
    sudo nixos-rebuild switch --flake .#t480
    ```
-4. Vid login, välj **Hyprland** i SDDM. Keybinds (urval):
+4. At login, choose **Hyprland** in SDDM. Keybinds (selection):
    - `Super+Enter` Kitty, `Super+D` Rofi
-   - `Super+L` lås (hyprlock)
-   - Ljud: volym-/mute-tangenter (pamixer)
-   - Ljusstyrka: skärmtangenter (brightnessctl)
-   - Skärmdump: `Super+S` (grim+slurp)
+   - `Super+L` lock (hyprlock)
+   - Audio: volume/mute keys (pamixer)
+   - Brightness: screen keys (brightnessctl)
+   - Screenshot: `Super+S` (grim+slurp)
 
-## Anpassningar
-- **Kanshi**: Ifall du använder endast HDMI eller endast DP, ta bort den andra i profilen `docked` i `home.nix`.
-- **Tema**: Global **Catppuccin Mocha** aktiveras via nix-modulerna (även Waybar/Rofi/Kitty/Neovim).
-- **Neovim**: Bas-setup via lazy.nvim (LSP, Treesitter, Telescope m.m.). Utöka plugins i `home.nix`.
+## Customizations
+- **Kanshi**: If you only use HDMI or only DP, remove the other one from the `docked` profile in `home.nix`.
+- **Theme**: Global **Catppuccin Mocha** is activated via the nix modules (also Waybar/Rofi/Kitty/Neovim).
+- **Neovim**: Base setup via lazy.nvim (LSP, Treesitter, Telescope etc.). Extend plugins in `home.nix`.
 
-## Vanliga felsökningar
-- Om intern panel inte släcks vid dockning: kontrollera att `kanshi` kör. Testa `systemctl --user status kanshi`.
-- Om output-namn inte matchar: uppdatera `criteria` i `programs.kanshi.profiles` efter `hyprctl monitors`.
-- Om Rider saknar JDK: installera `jdk` eller använd `jetbrains.jdk`-paket från nixpkgs.
+## Common troubleshooting
+- If internal panel doesn't turn off when docking: check that `kanshi` is running. Test `systemctl --user status kanshi`.
+- If output names don't match: update `criteria` in `programs.kanshi.profiles` after `hyprctl monitors`.
+- If Rider lacks JDK: install `jdk` or use `jetbrains.jdk` package from nixpkgs.
 
-## Licens
-MIT (konfigfiler), wallpaper genererat för detta repo.
+## License
+MIT (config files), wallpaper generated for this repo.
